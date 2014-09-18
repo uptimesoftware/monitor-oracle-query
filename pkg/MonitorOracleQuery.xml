@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uptime xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.uptimesoftware.com/erdc/erdc erdc"
+	xmlns="http://www.uptimesoftware.com/erdc/erdc" xmlns:upt="http://www.uptimesoftware.com/erdc/erdc" version="4.0"
+	target_grouping="other">
+
+	<class>Oracle Query Monitor</class>
+	<exec>JAVA_PLUGIN:UptimeMonitorOracleQuery</exec>
+	<erdc_version>1.0</erdc_version>
+	<category>Applications - Databases</category>
+	<category_related></category_related>
+	<grid_info>
+		<supported_versions>7.3</supported_versions>
+		<supported_platforms>windows, linux</supported_platforms>
+		<upgrade_in_place>true</upgrade_in_place>
+		<requires_agent_scripts>false</requires_agent_scripts>
+	</grid_info>
+
+	<elements>
+		<element name="port" parameter_type="input" data_type="integer" gui_basic="1" range_type="0" units="">
+			<control_options>size:10</control_options>
+			<default_value>1521</default_value>
+			<short_description>Port</short_description>
+			<long_description>Enter the port the database is listening on
+			</long_description>
+			<validation_rule>
+				<alphanumeric />
+			</validation_rule>
+			<error_message>
+				<alphanumeric>required field</alphanumeric>
+			</error_message>
+			<gui_type>
+				<integer />
+			</gui_type>
+		</element>
+
+		<element name="username" parameter_type="input" data_type="string" gui_basic="1" range_type="0" units="">
+			<control_options>size:10</control_options>
+			<default_value></default_value>
+			<short_description>Database user</short_description>
+			<long_description>Enter a userid with read access to the database
+			</long_description>
+			<validation_rule>
+				<alphanumeric />
+			</validation_rule>
+			<error_message>
+				<alphanumeric>required field</alphanumeric>
+			</error_message>
+			<gui_type>
+				<string />
+			</gui_type>
+		</element>
+
+		<element name="password" parameter_type="input" data_type="string" gui_basic="1" range_type="0" units="">
+			<control_options>size:10</control_options>
+			<default_value></default_value>
+			<short_description>Database password</short_description>
+			<long_description>Enter the password for the userid with read access to the database
+			</long_description>
+			<validation_rule>
+				<alphanumeric />
+			</validation_rule>
+			<error_message>
+				<alphanumeric>required field</alphanumeric>
+			</error_message>
+			<gui_type>
+				<password />
+			</gui_type>
+		</element>
+
+		<element name="sid" parameter_type="input" data_type="string" gui_basic="1" range_type="0">
+			<control_options>width:40em</control_options>
+			<default_value>ORCL</default_value>
+			<short_description>SID</short_description>
+			<long_description>SID to connect to</long_description>
+			<validation_rule />
+			<error_message />
+			<gui_type>
+				<string />
+			</gui_type>
+		</element>
+
+		<element name="sqlQuery" parameter_type="input" data_type="string" gui_basic="1" range_type="0" units="">
+			<control_options>rows:5,size:50</control_options>
+			<default_value />
+			<short_description>Database query</short_description>
+			<long_description>Enter the query to execute against the database
+			</long_description>
+			<validation_rule>
+				<alphanumeric />
+			</validation_rule>
+			<error_message>
+				<alphanumeric>required field</alphanumeric>
+			</error_message>
+			<gui_type>
+				<textarea />
+			</gui_type>
+		</element>
+
+		<element name="numberoutput" parameter_type="output" data_type="decimal" gui_basic="1" range_type="0">
+			<control_options>size:40</control_options>
+			<default_value />
+			<short_description>Numeric result</short_description>
+			<long_description>The (optional) numeric value to evaluate in the returned data
+			</long_description>
+			<validation_rule />
+			<error_message />
+			<gui_type>
+				<decimal />
+			</gui_type>
+		</element>
+
+		<element name="textoutput" parameter_type="output" data_type="string" gui_basic="1" range_type="0">
+			<control_options>size:40</control_options>
+			<default_value />
+			<short_description>Text result</short_description>
+			<long_description>The (optional) text to look for in the returned data
+			</long_description>
+			<validation_rule />
+			<error_message />
+			<gui_type>
+				<string />
+			</gui_type>
+		</element>
+
+		<element name="rowCounter" parameter_type="output" data_type="integer" gui_basic="1" range_type="0">
+			<control_options>size:40</control_options>
+			<default_value />
+			<short_description>Number of row</short_description>
+			<long_description>The number of row in a returned data
+			</long_description>
+			<validation_rule />
+			<error_message />
+			<gui_type>
+				<integer />
+			</gui_type>
+		</element>
+
+		<element name="timer" parameter_type="output" data_type="integer" gui_basic="0" range_type="0" units="ms">
+			<control_options>size:8</control_options>
+			<default_value />
+			<short_description>Response time</short_description>
+			<long_description>Response time in ms</long_description>
+			<validation_rule />
+			<error_message />
+			<gui_type>
+				<integer />
+			</gui_type>
+		</element>
+	</elements>
+	<help>
+		Query an Oracle database and return the results to up.time
+	</help>
+</uptime>
