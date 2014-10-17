@@ -5,12 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+
 import oracle.jdbc.pool.OracleDataSource;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import ro.fortsoft.pf4j.PluginWrapper;
+
 import com.uptimesoftware.uptime.plugin.api.Extension;
 import com.uptimesoftware.uptime.plugin.api.Plugin;
 import com.uptimesoftware.uptime.plugin.api.PluginMonitor;
@@ -65,12 +67,12 @@ public class MonitorOracleQuery extends Plugin {
 
 		// See definition in .xml file for plugin. Each plugin has different number of input/output parameters.
 		// [Input]
-		String hostname = "";
-		int port = 0;
-		String username = "";
-		String password = "";
-		String sid = "";
-		String sqlQuery = "";
+		String hostname;
+		int port;
+		String username;
+		String password;
+		String sid;
+		String sqlQuery;
 
 		/**
 		 * The setParameters function will accept a Parameters object containing the values filled into the monitor's
@@ -262,7 +264,7 @@ public class MonitorOracleQuery extends Plugin {
 		 * @return Extracted String result.
 		 */
 		private String extractFromResultSet(ResultSet rs) {
-			String extractedStringResult = "";
+			StringBuilder extractedStringResult = new StringBuilder();
 			try {
 				// An object that can be used to get information about the types and properties of the columns in a
 				// ResultSet object.
@@ -270,16 +272,14 @@ public class MonitorOracleQuery extends Plugin {
 				int columnCount = meta.getColumnCount();
 				while (rs.next()) {
 					rowCounter++;
-					// Build one raw String result with the private helper function.
-					extractedStringResult = getRowAsString(rs, columnCount);
-				}
-				if (extractedStringResult.isEmpty()) {
-					LOGGER.warn("The String result is empty.");
+					extractedStringResult.append(getRowAsString(rs, columnCount));
+					extractedStringResult.append(System.lineSeparator());
 				}
 			} catch (SQLException e) {
 				LOGGER.error("Error while extracting results from the given ResultSet : ", e);
 			}
-			return extractedStringResult;
+
+			return extractedStringResult.toString().trim();
 		}
 
 		/**
@@ -318,19 +318,18 @@ public class MonitorOracleQuery extends Plugin {
 		 */
 		private int isLongDoubleOrText(String stringResult) {
 			// 0 if Long, 1 if Double, 2 if non-numeric String
-			int which = OUTPUT_TYPE_STRING;
 			try {
 				if (stringResult.contains(".")) {
 					doubleValue = Double.parseDouble(stringResult);
-					which = OUTPUT_TYPE_DOUBLE;
+					return OUTPUT_TYPE_DOUBLE;
 				} else {
 					longValue = Long.parseLong(stringResult);
-					which = OUTPUT_TYPE_LONG;
+					return OUTPUT_TYPE_LONG;
 				}
 			} catch (NumberFormatException e) {
 				// Do Nothing.
 			}
-			return which;
+			return OUTPUT_TYPE_STRING;
 		}
 
 		/**
